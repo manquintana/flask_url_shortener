@@ -17,6 +17,9 @@ flask run
 
 ! To run the project on dev environment (without reloading the server after each change):
 pipenv shell
+pipenv install flask
 set FLASK_ENV=development
 flask run
+
+It runs on localhost:5000
 //////////////////////////////////////////////////////////////////////////////////////////
