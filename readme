@@ -1,0 +1,22 @@
+1. Initial guide:
+
+pipenv install → Creates the venv
+pipenv shell → Opens the venv
+
+pipenv install flask
+set FLASK_APP=hello → It's not necessary if you create a file called app.py (it will automatically 'set FLASK_APP=app')
+
+flask run → Runs the server
+exit → Exits venv
+
+Crear ambiente de desarrollo, para no tener que recargar el servidor cada vez que se hace un cambio.
+pipenv shell
+set FLASK_ENV=development
+flask run
+//////////////////////////////////////////////////////////////////////////////////////////
+
+! To run the project on dev environment (without reloading the server after each change):
+pipenv shell
+set FLASK_ENV=development
+flask run
+//////////////////////////////////////////////////////////////////////////////////////////
