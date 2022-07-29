@@ -1,26 +1,57 @@
-<h1>URL Shortener</h1>
+{% extends 'base.html' %}
 
-{% for message in get_flashed_messages() %} <!--Jinjas syntaxis-->
-<h2>{{ message }}</h2>
-{% endfor %}
+{% block title %}
+URL Shortener
+{% endblock %}
 
-<!-- POST request to hide the variables from the URL -->
-<form action="your-url" method="post">
-    <label for="url">Website URL</label>
-    <input type="url" name="url" value="" required>
-    <br />
-    <label for="code">Short Name</label>
-    <input type="text" name ="code" value="" required>
-    <br />
-    <input type="submit" value="Shorten">
-</form>
+{% block main %}
+<div class="container">
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <form action="your-url" method="post" enctype="multipart/form-data" class="p-3 p-md-3 border rounded-3 bg-light">
+                <h4>URL</h4>
+                <div class="form-floating mb-3">
+                <input type="url" name="url" value="" required class="form-control" placeholder="Write the URL">
+                <label for="url">Website URL</label>
+                </div>
+                <div class="form-floating mb-3">
+                <input type="text" name ="code" value="" require class="form-control" placeholder="Write your desired shortname">
+                <label for="code">Short Name</label>
+                </div>
+                <input class="w-100 btn btn-lg btn-primary" type="submit" value="Shorten">
+            </form>
+        </div>
 
-<form action="your-url" method="post" enctype="multipart/form-data">
-    <label for="file">File</label>
-    <input type="file" name="file" value="" required>
-    <br />
-    <label for="code">Short Name</label>
-    <input type="text" name ="code" value="" required>
-    <br />
-    <input type="submit" value="Shorten">
-</form>
+        <div class="col-md-6">
+            <form action="your-url" method="post" enctype="multipart/form-data" class="p-3 p-md-3 border rounded-3 bg-light">
+                <h4>Files</h4>
+                <div class="form-floating mb-3">
+                <input type="file" name="file" value="" required class="form-control">
+                <label for="file">File</label>
+                </div>
+                <div class="form-floating mb-3">
+                <input type="text" name ="code" value="" require class="form-control" placeholder="Write your desired shortname">
+                <label for="code">Short Name</label>
+                </div>
+                <input class="w-100 btn btn-lg btn-primary" type="submit" value="Shorten">
+            </form>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-sm-4 mx-auto border rounded-3 bg-light p-3 p-md-3">
+            {% if codes %} <!--Jinjas syntaxis-->
+            <h4>Codes you have created</h4>
+            <ul>
+                {% for code in codes %}
+                <a href="{{ url_for('redirect_to_url', code = code) }}">
+                    <li>{{ code }}</li>
+                </a>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

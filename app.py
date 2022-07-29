@@ -1,6 +1,6 @@
 import json
 import os.path
-from flask import Flask, render_template, request, redirect, url_for, flash, abort
+from flask import Flask, render_template, request, redirect, url_for, flash, abort, session, jsonify
 from werkzeug.utils import secure_filename #Secure in filename
 
 app = Flask(__name__) #name of the module running in flask
@@ -8,7 +8,7 @@ app.secret_key = 'keyformessagesfasfasf312r1412'
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html', codes = session.keys())
 
 @app.route('/your-url', methods=['GET', 'POST'])
 def your_url():
@@ -31,7 +31,10 @@ def your_url():
             f.save(f'static/user_files/{full_name}')
             urls[request.form['code']] = {'file': full_name}
         with open('urls.json', 'w') as url_file:
-            json.dump(urls, url_file)
+            json.dump(urls, url_file) #1. Write into the json
+            session[request.form['code']] = True #2. Store the cookie with the code
+
+
             return render_template('your_url.html', code=request.form['code']) # request.form para usar POST //request.args para usar GET
     else:
         return redirect(url_for('home'))
@@ -52,3 +55,6 @@ def redirect_to_url(code):
 def page_not_found(error):
     return render_template('page_not_found.html'), 404
     
+@app.route('/api')
+def session_api():
+    return jsonify(list(session.keys()))
